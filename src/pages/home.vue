@@ -1,33 +1,38 @@
 <template>
-  <f7-page>
+  <f7-page @page:afterin="ticker()">
     <f7-navbar>
       <f7-nav-left>
         <f7-link icon-if-ios="f7:menu" icon-if-md="material:menu" panel-open="left"></f7-link>
       </f7-nav-left>
-      <f7-nav-title>Inc Game {{name}} </f7-nav-title>
+      <f7-nav-title>{{NameOfObjectToGet}} gatherer</f7-nav-title>
       <f7-nav-right>
         <f7-link icon-if-ios="f7:menu" icon-if-md="material:menu" panel-open="right"></f7-link>
       </f7-nav-right>
     </f7-navbar>
+    <!--
     <f7-toolbar bottom>
       <f7-link>Left Link</f7-link>
       <f7-link>Right Link</f7-link>
     </f7-toolbar>
+    -->
     <f7-block strong>
-      <p>Amount of clicks: {{Clicks}}<f7-badge color=red v-if="Clicks >= CostOfNextClickUpgrade">1</f7-badge></p>
+      <p>Amount of {{NameOfObjectToGet}}: {{Clicks}}<f7-badge color=red v-if="Clicks >= CostOfNextClickUpgrade">1</f7-badge></p>
       <f7-row>
-        <f7-col width="30">
-          <f7-segmented fill raised>
-            <f7-button color=blue @click="incClick()">Increase</f7-button>
-            <f7-button color=red @click="increaseClicksPerClick(1)" v-if="Clicks >= CostOfNextClickUpgrade">Upgrade Click</f7-button>
-          </f7-segmented>
+        <f7-col width=35>
+          <f7-button color=blue @click="incClick()">Gather {{NameOfObjectToGet}}s</f7-button>
+          <f7-button color=red @click="increaseClicksPerClick(1)" v-if="Clicks >= CostOfNextClickUpgrade">Upgrade {{NameOfObjectToGet}} collection</f7-button>
         </f7-col>
-        <f7-col>
-
+        <f7-col width=40>
+          <f7-list>
+            <f7-list-item  v-for="item in Upgrades" :key="item.id" :disabled="Clicks < item.cost">
+              <f7-button>Upgrade name: {{item.name}}; Cost: {{item.cost}}</f7-button>
+            </f7-list-item>
+          </f7-list>
         </f7-col>
       </f7-row>
-      
     </f7-block>
+
+<!--
     <f7-block-title>Navigation</f7-block-title>
     <f7-list>
       <f7-list-item link="/about/" title="About"></f7-list-item>
@@ -55,6 +60,7 @@
         </f7-col>
       </f7-row>
     </f7-block>
+    -->
   </f7-page>
 </template>
 <script>
@@ -62,6 +68,7 @@
 import data from '../app.vue';
 
 import {gameData} from '../mixins/gameData';
+import { setInterval } from 'timers';
 
 export default {
 
@@ -72,9 +79,6 @@ export default {
       name: 'Konrad',
       popupOpened: false
     }
-  },
-  mounted() {
-    console.dir(this)
   },
   methods: {
       createPopup() {
