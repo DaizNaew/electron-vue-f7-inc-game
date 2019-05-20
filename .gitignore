@@ -1,0 +1,9 @@
+.DS_Store
+dist/
+node_modules/
+thumbs.db
+.vscode
+.vs
+yarn-error.log
+tsconfig.json
+package-lock.json
