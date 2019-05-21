@@ -16,7 +16,14 @@
     </f7-toolbar>
     -->
     <f7-block strong>
-      <p>Amount of {{NameOfObjectToGet}}: {{Clicks}}<f7-badge color=red v-if="Clicks >= CostOfNextClickUpgrade">1</f7-badge></p>
+      <p>Current amount of {{NameOfObjectToGet}} per tick: {{(ClicksPerSecond*Tickrate).toFixed(1)}}; Current tickrate each {{Tickrate}} seconds</p>
+      <f7-row>
+        <f7-col width=40>
+          <label>Amount of {{NameOfObjectToGet}}: {{Clicks.toFixed(1)}}</label>
+        </f7-col>
+        <f7-col width=40>
+        </f7-col>
+      </f7-row>
       <f7-row>
         <f7-col width=35>
           <f7-button color=blue @click="incClick()">Gather {{NameOfObjectToGet}}s</f7-button>
@@ -24,8 +31,15 @@
         </f7-col>
         <f7-col width=40>
           <f7-list>
-            <f7-list-item  v-for="item in Upgrades" :key="item.id" :disabled="Clicks < item.cost">
-              <f7-button>Upgrade name: {{item.name}}; Cost: {{item.cost}}</f7-button>
+            <f7-list-item>
+              <label>Can buy</label>
+              <label>Buildings</label>
+              <label>Amount owned</label>
+            </f7-list-item>
+            <f7-list-item  v-for="item in Buildings" :key="item.id" :disabled="Clicks < item.cost">
+              <f7-badge color=red v-if="Clicks >= item.cost">!</f7-badge><f7-badge color=white v-else></f7-badge>
+              <f7-button @click="buyBuilding(item.id)" tooltip-init>{{item.name}}; Cost: {{item.cost}}; Produces: {{item.total_prod.toFixed(1)}}</f7-button>
+              <f7-badge color=blue>{{item.amount_owned}}</f7-badge>
             </f7-list-item>
           </f7-list>
         </f7-col>
