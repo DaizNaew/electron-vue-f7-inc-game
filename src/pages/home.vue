@@ -25,23 +25,60 @@
         </f7-col>
       </f7-row>
       <f7-row>
-        <f7-col width=35>
-          <f7-button color=blue @click="incClick()">Gather {{NameOfObjectToGet}}s</f7-button>
-          <f7-button color=red @click="increaseClicksPerClick(1)" v-if="Clicks >= CostOfNextClickUpgrade">Upgrade {{NameOfObjectToGet}} collection</f7-button>
+        <f7-col width=40>
+          <f7-block>
+            <f7-button color=blue @click="incClick()">Gather {{NameOfObjectToGet}}s</f7-button>
+            <f7-button color=red @click="increaseClicksPerClick(1)" v-if="Clicks >= CostOfNextClickUpgrade">Upgrade {{NameOfObjectToGet}} collection</f7-button>
+          </f7-block>
+        </f7-col>
+        <f7-col width=20 class=text-center>
+          <f7-block-title large>You got</f7-block-title>
+          <f7-block strong>
+            
+            <label>{{Clicks.toFixed(1)}} {{NameOfObjectToGet}}s</label>
+          </f7-block>
+          
         </f7-col>
         <f7-col width=40>
-          <f7-list>
-            <f7-list-item>
-              <label>Can buy</label>
-              <label>Buildings</label>
-              <label>Amount owned</label>
-            </f7-list-item>
-            <f7-list-item  v-for="item in Buildings" :key="item.id" :disabled="Clicks < item.cost">
-              <f7-badge color=red v-if="Clicks >= item.cost">!</f7-badge><f7-badge color=white v-else></f7-badge>
-              <f7-button @click="buyBuilding(item.id)" tooltip-init>{{item.name}}; Cost: {{item.cost}}; Produces: {{item.total_prod.toFixed(1)}}</f7-button>
-              <f7-badge color=blue>{{item.amount_owned}}</f7-badge>
-            </f7-list-item>
-          </f7-list>
+          <f7-block>
+            <f7-block-header>Units available for purchase</f7-block-header>
+            <f7-list media-list>
+              <f7-list-item v-for="item in Buildings" 
+              :key="item.id" 
+              :title="item.name"
+              >
+
+                <ul slot=after>
+                  <li><label >Price: {{item.cost}}</label></li>
+                  <li><label >Produces {{item.total_prod.toFixed(1)}}/s</label></li>
+                </ul>
+                
+                <f7-segmented raised tag=p slot=subtitle>
+                  <f7-button @click="buyBuilding(item.id)" :disabled="Clicks < item.cost">Buy<f7-badge color=red v-if="Clicks >= item.cost">!</f7-badge><f7-badge color=white v-else></f7-badge></f7-button>
+                  <f7-button 
+                    :disabled="0 == item.amount_owned" 
+                    text=Upgrades
+                    tooltip="Click this to further upgrade this unit"
+                    popover-open=.popover-menu>
+                  </f7-button>
+                </f7-segmented>
+                
+                <f7-badge slot=media color=blue :disabled="0 == item.amount_owned">{{item.amount_owned}}</f7-badge>
+                <f7-popover class=popover-menu>
+                  <f7-list >
+                    <f7-list-item :key="upgrade.id" v-for="upgrade in item.Upgrades" :title="upgrade.name" link=#>
+                      <label slot=after>Purchase</label>
+                      <label slot=header>Price: {{upgrade.cost}}</label>
+                      <label slot=footer>{{upgrade.effect_text}}</label>
+                    </f7-list-item>
+                  </f7-list>
+                </f7-popover>
+                
+              </f7-list-item>
+            </f7-list>
+            <f7-block-footer>
+            </f7-block-footer>
+          </f7-block>
         </f7-col>
       </f7-row>
     </f7-block>
