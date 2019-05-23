@@ -5,5 +5,4 @@ thumbs.db
 .vscode
 .vs
 yarn-error.log
-tsconfig.json
 package-lock.json
