@@ -54,7 +54,11 @@
                 </ul>
                 
                 <f7-segmented raised tag=p slot=subtitle>
-                  <f7-button @click="buyBuilding(item.id)" :disabled="Clicks < item.cost">Buy<f7-badge color=red v-if="Clicks >= item.cost">!</f7-badge><f7-badge color=white v-else></f7-badge></f7-button>
+
+                  <f7-button @click="buyBuilding(item.id)" :disabled="Clicks < item.cost" text=Buy>
+                    <f7-badge :class="[Clicks >= item.cost ? 'color-red' : 'color-white']">!</f7-badge>
+                  </f7-button>
+
                   <f7-button 
                     :disabled="0 == item.amount_owned" 
                     text=Upgrades
@@ -63,7 +67,8 @@
                   </f7-button>
                 </f7-segmented>
                 
-                <f7-badge slot=media color=blue :disabled="0 == item.amount_owned">{{item.amount_owned}}</f7-badge>
+                <f7-badge slot=media :disabled="0 == item.amount_owned" :class="{'color-blue' : item.amount_owned > 0}">{{item.amount_owned}}</f7-badge>
+
                 <f7-popover class=popover-menu>
                   <f7-list >
                     <f7-list-item :key="upgrade.id" v-for="upgrade in item.Upgrades" :title="upgrade.name" link=#>
