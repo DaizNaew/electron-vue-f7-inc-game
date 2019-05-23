@@ -9,33 +9,32 @@
         <f7-link icon-if-ios="f7:menu" icon-if-md="material:menu" panel-open="right"></f7-link>
       </f7-nav-right>
     </f7-navbar>
-    <!--
-    <f7-toolbar bottom>
-      <f7-link>Left Link</f7-link>
-      <f7-link>Right Link</f7-link>
-    </f7-toolbar>
-    -->
+    
     <f7-block strong>
-      <p>Current amount of {{NameOfObjectToGet}} per tick: {{(ClicksPerSecond*Tickrate).toFixed(1)}}; Current tickrate each {{Tickrate}} seconds</p>
+      
       <f7-row>
         <f7-col width=40>
-          <label>Amount of {{NameOfObjectToGet}}: {{Clicks.toFixed(1)}}</label>
         </f7-col>
         <f7-col width=40>
         </f7-col>
       </f7-row>
       <f7-row>
         <f7-col width=40>
+          
+        </f7-col>
+        <f7-col width=20 class=text-center>
+          <f7-block-title medium>You got</f7-block-title>
+          <f7-block strong>
+            <label>{{Clicks.toFixed(1)}} {{NameOfObjectToGet}}s</label>
+          </f7-block>
           <f7-block>
+            <p>{{clicksPerClicks}} {{NameOfObjectToGet}} per click</p>
             <f7-button color=blue @click="incClick()">Gather {{NameOfObjectToGet}}s</f7-button>
             <f7-button color=red @click="increaseClicksPerClick(1)" v-if="Clicks >= CostOfNextClickUpgrade">Upgrade {{NameOfObjectToGet}} collection</f7-button>
           </f7-block>
-        </f7-col>
-        <f7-col width=20 class=text-center>
-          <f7-block-title large>You got</f7-block-title>
           <f7-block strong>
-            
-            <label>{{Clicks.toFixed(1)}} {{NameOfObjectToGet}}s</label>
+            <p>Current amount of {{NameOfObjectToGet}} per tick: {{(ClicksPerSecond*Tickrate).toFixed(1)}}</p>
+            <p>Current tickrate {{(1/Tickrate).toFixed(1)}} a second</p>
           </f7-block>
           
         </f7-col>
@@ -45,9 +44,7 @@
             <f7-list media-list>
               <f7-list-item v-for="item in Buildings" 
               :key="item.id" 
-              :title="item.name"
-              >
-
+              :title="item.name">
                 <ul slot=after>
                   <li><label >Price: {{item.cost}}</label></li>
                   <li><label >Produces {{item.total_prod.toFixed(1)}}/s</label></li>
@@ -60,18 +57,21 @@
                   </f7-button>
 
                   <f7-button 
-                    :disabled="0 == item.amount_owned" 
+                    :disabled="0 == item.amount_owned || item.amount_owned < 10" 
                     text=Upgrades
                     tooltip="Click this to further upgrade this unit"
-                    popover-open=.popover-menu>
-                  </f7-button>
+                    popover-open=.popover-menu />
                 </f7-segmented>
                 
                 <f7-badge slot=media :disabled="0 == item.amount_owned" :class="{'color-blue' : item.amount_owned > 0}">{{item.amount_owned}}</f7-badge>
 
-                <f7-popover class=popover-menu>
+                <f7-popover :key="item.id" class=popover-menu>
                   <f7-list >
-                    <f7-list-item :key="upgrade.id" v-for="upgrade in item.Upgrades" :title="upgrade.name" link=#>
+                    <f7-list-item :key="upgrade.id" 
+                      v-for="upgrade in item.Upgrades" 
+                      :title="upgrade.name" 
+                      :hidden="upgrade.req_units > item.amount_owned"
+                      link=# >
                       <label slot=after>Purchase</label>
                       <label slot=header>Price: {{upgrade.cost}}</label>
                       <label slot=footer>{{upgrade.effect_text}}</label>
@@ -124,7 +124,6 @@
 import data from '../app.vue';
 
 import {gameData} from '../mixins/gameData';
-import { setInterval } from 'timers';
 
 export default {
 
