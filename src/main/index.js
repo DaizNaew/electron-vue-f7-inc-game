@@ -4,18 +4,30 @@
 import { app, BrowserWindow } from 'electron'
 import * as path from 'path'
 import { format as formatUrl } from 'url'
+const Store = require('../scripts/store');
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
 let mainWindow
 
+const store = new Store({
+    configName: 'user-preferences',
+    defaults: {
+        windowBounds: {
+            width: 1366,
+            height: 720,
+        }
+    }
+})
+
 function createMainWindow() {
+    let {width, height} = store.get('windowBounds');
   
     const window  = new BrowserWindow({
         title: true,
-        width: 1366,
-        height: 720,
+        width,
+        height,
         webPreferences: {
             nodeIntegration: true
         },
@@ -43,6 +55,11 @@ function createMainWindow() {
         setImmediate(() => {
             window.focus()
         })
+    })
+
+    window.on('resize', () => {
+        let {width, height} = mainWindow.getBounds();
+        store.set('windowBounds', {width, height});
     })
 
     return window
