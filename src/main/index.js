@@ -18,15 +18,13 @@ function createMainWindow() {
         height: 720,
         webPreferences: {
             nodeIntegration: true
-        }
+        },
+        frame: false
     });
 
     if (isDevelopment) {
-        window.webContents.openDevTools()
-    }
-
-    if (isDevelopment) {
-        window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`)
+        window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`);
+        window.webContents.openDevTools();
     }
     else {
         window.loadURL(formatUrl({
