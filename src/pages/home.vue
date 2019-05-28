@@ -78,6 +78,7 @@
                   {{item.amount_owned}}</f7-badge>
 
                 <f7-popover :key="item.id" class=popover-menu>
+                  <!--
                   <f7-list>
                     <f7-list-item :key="upgrade.id" v-for="upgrade in item.Upgrades" :title="upgrade.name"
                       :hidden="upgrade.req_units > item.amount_owned" link=#>
@@ -86,6 +87,7 @@
                       <label slot=footer>{{upgrade.effect_text}}</label>
                     </f7-list-item>
                   </f7-list>
+                  -->
                 </f7-popover>
 
               </f7-list-item>
