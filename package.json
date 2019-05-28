@@ -1,8 +1,28 @@
 {
-  "name": "Inc-Game",
+  "name": "incgame",
   "version": "0.0.1",
   "license": "MIT",
   "main": "index.js",
+  "author": "Daiz Naew",
+  "description": "A simple incremental game to test out the power of webpack, vue and electron combo",
+  "build": {
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": true,
+      "createDesktopShortcut": true,
+      "installerIcon": "build/icons/icon.ico",
+      "uninstallerIcon": "build/icons/icon.ico",
+      "uninstallDisplayName": "Uninstall Game"
+    },
+    "win":{
+      "target": "nsis",
+      "icon": "build/icons/icon.ico",
+      "publisherName": "Daiz Naew"
+    }
+  },
   "scripts": {
     "dev": "electron-webpack dev --config ./build/webpack.config.js",
     "compile": "electron-webpack",
