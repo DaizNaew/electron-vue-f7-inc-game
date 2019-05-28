@@ -31,7 +31,7 @@ function createMainWindow() {
         webPreferences: {
             nodeIntegration: true
         },
-        frame: false
+        frame: false,
     });
 
     if (isDevelopment) {

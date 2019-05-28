@@ -32,10 +32,12 @@ export default {
             {
                 "test": /\.tsx?$/,
                 "exclude": /node_modules/,
+                "include": [resolve('src')],
                 "use": {
                     "loader": "ts-loader",
                     "options": {
-                        "transpileOnly": true
+                        "transpileOnly": true,
+                        "appendTsSuffixTo": [/.vue$/],
                     }
                 }
             },
@@ -96,5 +98,6 @@ export default {
         from: resolvePath('static'),
         to: resolvePath('www/static'),
       }]),
-    ]
+    ],
+  
 }
