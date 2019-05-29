@@ -6,7 +6,7 @@
   "author": "Daiz Naew",
   "description": "A simple incremental game to test out the power of webpack, vue and electron combo",
   "build": {
-    "appId": "",
+    "appId": "net.daiznaew.incgame",
     "nsis": {
       "oneClick": false,
       "perMachine": true,
