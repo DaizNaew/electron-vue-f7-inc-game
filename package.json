@@ -19,16 +19,28 @@
       "uninstallDisplayName": "Uninstall Game"
     },
     "win": {
-      "target": "nsis",
+      "target": [
+        "nsis",
+        "portable"
+      ],
       "icon": "build/icons/icon.ico",
       "publisherName": "Daiz Naew"
+    },
+    "linux": {
+      "target": "deb",
+      "maintainer": "daiznaew@gmail.com",
+      "executableName": "Incremental Game",
+      "category": "Game"
+    },
+    "portable": {
+      "artifactName": "Incremental Game.exe"
     }
   },
   "scripts": {
     "dev": "electron-webpack dev --config ./build/webpack.config.js",
     "compile": "electron-webpack",
-    "dist": "yarn compile && electron-builder",
-    "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
+    "dist": "npm run compile && electron-builder",
+    "dist:dir": "npm run dist --dir -c.compression=store -c.mac.identity=null",
     "copy-fonts": "cpy node_modules/framework7-icons/fonts/*.* src/fonts && cpy node_modules/material-design-icons/iconfont/*.{eot,ttf,woff,woff2} src/fonts",
     "postinstall": "npm run copy-fonts && electron-builder install-app-deps"
   },
