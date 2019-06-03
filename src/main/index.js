@@ -2,6 +2,8 @@
 'use strict'
 
 import { app, BrowserWindow } from 'electron'
+import { autoUpdater } from 'electron-updater'
+const log = require ('electron-log')
 import * as path from 'path'
 import { format as formatUrl } from 'url'
 const Store = require('../scripts/store');
@@ -10,6 +12,10 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
 let mainWindow
+
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = 'info';
+log.info('app starting...')
 
 const store = new Store({
     configName: 'user-preferences',
@@ -65,6 +71,19 @@ function createMainWindow() {
     return window
 }
 
+autoUpdater.on('checking-for-update', () => {
+    alert('Checking for update...');
+  })
+  autoUpdater.on('update-available', (info) => {
+    alert('Update available.');
+  })
+  autoUpdater.on('update-not-available', (info) => {
+    alert('Update not available.');
+  })
+  autoUpdater.on('error', (err) => {
+    alert('Error in auto-updater. ' + err);
+  })
+
 // quit application when all windows are closed
 app.on('window-all-closed', () => {
     // on macOS it is common for applications to stay open until the user explicitly quits
@@ -82,5 +101,6 @@ app.on('activate', () => {
 
 // create main BrowserWindow when electron is ready
 app.on('ready', () => {
-    mainWindow = createMainWindow()
+    autoUpdater.checkForUpdatesAndNotify();
+    mainWindow = createMainWindow();
 })

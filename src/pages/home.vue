@@ -2,7 +2,7 @@
   <f7-page @page:afterin="init()">
     <f7-navbar>
       <f7-nav-left>
-        <f7-link icon-if-ios="f7:menu" icon-if-md="material:menu" panel-open="left"></f7-link>
+        <f7-link icon-if-ios="f7:menu" icon-if-md="material:menu" panel-open="left">Menu</f7-link>
       </f7-nav-left>
       <f7-nav-title style="-webkit-app-region: drag">{{NameOfObjectToGet}} gatherer</f7-nav-title>
       <!--
