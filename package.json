@@ -37,12 +37,13 @@
     }
   },
   "scripts": {
-    "dev": "electron-webpack dev --config ./build/webpack.config.js",
+    "dev": "electron-webpack dev --config ./build/webpack.config.js --hot",
     "compile": "electron-webpack",
     "dist": "npm run compile && electron-builder",
     "dist:dir": "npm run dist --dir -c.compression=store -c.mac.identity=null",
     "copy-fonts": "cpy node_modules/framework7-icons/fonts/*.* src/fonts && cpy node_modules/material-design-icons/iconfont/*.{eot,ttf,woff,woff2} src/fonts",
-    "postinstall": "npm run copy-fonts && electron-builder install-app-deps"
+    "postinstall": "npm run copy-fonts && electron-builder install-app-deps",
+    "start:dev": "webpack-dev-server"
   },
   "dependencies": {
     "chart.js": "^2.8.0",
@@ -80,6 +81,6 @@
     "webpack-build-notifier": "^1.0.2",
     "webpack-bundle-analyzer": "^3.3.2",
     "webpack-cli": "^3.3.2",
-    "webpack-dev-server": "^3.4.1"
+    "webpack-dev-server": "^3.5.1"
   }
 }
