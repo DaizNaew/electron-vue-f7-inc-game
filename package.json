@@ -43,7 +43,8 @@
     "dist:dir": "npm run dist --dir -c.compression=store -c.mac.identity=null",
     "copy-fonts": "cpy node_modules/framework7-icons/fonts/*.* src/fonts && cpy node_modules/material-design-icons/iconfont/*.{eot,ttf,woff,woff2} src/fonts",
     "postinstall": "npm run copy-fonts && electron-builder install-app-deps",
-    "start:dev": "webpack-dev-server"
+    "start:dev": "webpack-dev-server",
+    "generate-icon-splash": "splashicon-generator --imagespath='build/icons'"
   },
   "dependencies": {
     "chart.js": "^2.8.0",
