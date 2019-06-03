@@ -6,3 +6,4 @@ thumbs.db
 .vs
 yarn-error.log
 package-lock.json
+.directory
