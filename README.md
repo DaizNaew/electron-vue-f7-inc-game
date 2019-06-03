@@ -1,5 +1,5 @@
 # electron-vue-f7-inc-game
-> A bare minimum incremental game procject using [`electron-webpack`](https://github.com/electron-userland/electron-webpack).
+> A bare minimum incremental game project using [`electron-webpack`](https://github.com/electron-userland/electron-webpack).
 
 Thanks to the power of `electron-webpack` this template comes packed with...
 
