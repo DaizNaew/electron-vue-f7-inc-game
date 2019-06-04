@@ -6,7 +6,7 @@
     <f7-statusbar></f7-statusbar>
 
     <!-- Left Panel -->
-    <f7-panel left cover theme-dark>
+    <f7-panel left cover>
       <f7-view url="/panel-left/"></f7-view>
     </f7-panel>
 
