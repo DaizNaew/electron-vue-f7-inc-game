@@ -160,15 +160,15 @@ export default {
       CurrWin.minimize();
     },
     setTickerProgress(val) {
-      const self = this;
-      const app = self.$f7;
+      const that = this;
+      const app = that.$f7;
       app.progressbar.set("#tickerProgress", val)
     },
     createPopup() {
-      const self = this;
+      const that = this;
       // Create popup
-      if (!self.popup) {
-        self.popup = self.$f7.popup.create({
+      if (!that.popup) {
+        that.popup = that.$f7.popup.create({
           content: `
               <div class="popup">
                 <div class="page">
@@ -188,12 +188,12 @@ export default {
         });
       }
       // Open it
-      self.popup.open();
+      that.popup.open();
     },
     onPageBeforeRemove() {
-      const self = this;
+      const that = this;
       // Destroy popup when page removed
-      if (self.popup) self.popup.destroy();
+      if (that.popup) that.popup.destroy();
     },
     CreateChart() {
       var ctx = document.getElementById('myChart').getContext('2d');

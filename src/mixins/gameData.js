@@ -14,7 +14,8 @@ const store = new Store({
             BuyAmount: 1,
         }
     }
-})
+});
+
 let {
     Clicks,
     TotalClicks,
@@ -25,6 +26,7 @@ let {
     Tickrate,
     BuyAmount
 } = store.get('gameData');
+
 export const gameData = {
 
     data() {
@@ -114,9 +116,9 @@ export const gameData = {
         },
         ticker: function () {
             let tick = 0;
-            const self = this;
-            const app = self.$f7;
-            const $$ = self.$$;
+            const that = this;
+            const app = that.$f7;
+            const $$ = that.$$;
             setInterval(() => {
                 tick += 1000;
                 if (tick >= 1000 * this.Tickrate) {
@@ -130,7 +132,7 @@ export const gameData = {
                         }, {
                             duration: 2500,
                             begin: function (elements) {
-                                self.setTickerProgress(0);
+                                that.setTickerProgress(0);
                             }
                         })
                         .animate({
@@ -154,7 +156,7 @@ export const gameData = {
                     closeButton: true,
                     closeButtonText: 'X',
                 });
-                self.saveGameData();
+                that.saveGameData();
             }, 1000 * 60 * 1)
         },
         allBuildingTotalProduction: function () {
@@ -165,7 +167,7 @@ export const gameData = {
             this.ClicksPerSecond = prod;
         },
         saveGameData: function () {
-            self = this;
+            const that = this;
             let {
                 Clicks,
                 TotalClicks,
@@ -175,7 +177,7 @@ export const gameData = {
                 ClicksUpgraded,
                 Tickrate,
                 BuyAmount
-            } = self.returnUserGameData();
+            } = that.returnUserGameData();
             store.set('gameData', {
                 Clicks,
                 TotalClicks,
@@ -189,14 +191,14 @@ export const gameData = {
         },
         returnUserGameData: function () {
             let data = {
-                Clicks: self.Clicks,
-                TotalClicks: self.TotalClicks,
-                clicksPerClicks: self.clicksPerClicks,
-                ClicksPerSecond: self.ClicksPerSecond,
-                CostOfNextClickUpgrade: self.CostOfNextClickUpgrade,
-                ClicksUpgraded: self.ClicksUpgraded,
-                Tickrate: self.Tickrate,
-                BuyAmount: self.BuyAmount
+                Clicks: this.Clicks,
+                TotalClicks: this.TotalClicks,
+                clicksPerClicks: this.clicksPerClicks,
+                ClicksPerSecond: this.ClicksPerSecond,
+                CostOfNextClickUpgrade: this.CostOfNextClickUpgrade,
+                ClicksUpgraded: this.ClicksUpgraded,
+                Tickrate: this.Tickrate,
+                BuyAmount: this.BuyAmount
             }
             return data
         }
