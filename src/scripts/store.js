@@ -16,6 +16,12 @@ class Store {
         this.data[key] = val;
         fs.writeFileSync(this.path, JSON.stringify(this.data));
     }
+    del(path) {
+        let p = this.path
+        if(path) p =  path
+        deleteDataFile(p);
+        console.log('Deleted config file...')
+    }
 }
 
 function parseDataFile(filePath, defaults) {
@@ -25,4 +31,13 @@ function parseDataFile(filePath, defaults) {
         return defaults;
     }
 }
+
+function deleteDataFile(filePath) {
+    try {
+        fs.unlinkSync(filePath);
+    } catch(error) {
+        console.error(error)
+    }
+}
+
 module.exports = Store;
