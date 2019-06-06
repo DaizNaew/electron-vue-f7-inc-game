@@ -27,7 +27,11 @@
       "publisherName": "Daiz Naew"
     },
     "linux": {
-      "target": ["deb","appImage","snap"],
+      "target": [
+        "deb",
+        "appImage",
+        "snap"
+      ],
       "maintainer": "daiznaew@gmail.com",
       "executableName": "Incremental Game",
       "category": "Game"
