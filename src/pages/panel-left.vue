@@ -31,7 +31,7 @@
 const Store = require('../scripts/store')
 
 const store = new Store({
-    configName: 'user-preferences',
+    configName: 'user-theme',
     defaults: {
         theme: {
             darkMode: false
