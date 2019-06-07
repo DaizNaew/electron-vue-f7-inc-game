@@ -29,5 +29,7 @@ new Vue({
   components: {
     app: App
   },
+  beforeCreate: function() {
+  }
   
 });

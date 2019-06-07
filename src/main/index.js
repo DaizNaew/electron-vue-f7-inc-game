@@ -29,7 +29,6 @@ const store = new Store({
 
 function createMainWindow() {
     let {width, height} = store.get('windowBounds');
-  
     const window  = new BrowserWindow({
         title: true,
         width,

@@ -28,9 +28,7 @@
     },
     "linux": {
       "target": [
-        "deb",
-        "appImage",
-        "snap"
+        "deb"
       ],
       "maintainer": "daiznaew@gmail.com",
       "executableName": "Incremental Game",
@@ -49,7 +47,7 @@
     "postinstall": "npm run copy-fonts && electron-builder install-app-deps",
     "start:dev": "webpack-dev-server",
     "generate-icon-splash": "splashicon-generator --imagespath='build/icons'",
-    "test": "gulp"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "chart.js": "^2.8.0",
