@@ -87,8 +87,7 @@ export default {
     deleteData() {
       const that = this;
       const app = that.$f7;
-      alert("No you don't")
-      //store.del()
+      app.dialog.confirm('You sure you want to delete all your saved data?','Confirm deletion', () => {store.del()}, () => {});
       console.dir('get Deleted')
     }
   }
