@@ -29,7 +29,26 @@ new Vue({
   components: {
     app: App
   },
-  beforeCreate: function() {
+  beforeCreate: function () {
+    var storage;
+    storage = window['localStorage'];
+
+    var SAVE_KEY = 'gameData';
+    if (!JSON.parse(storage.getItem(SAVE_KEY)) || storage.getItem(SAVE_KEY) == "undefined") {
+      console.log('INIT SAVE DATA')
+      storage.setItem(SAVE_KEY, JSON.stringify({
+        Clicks: 0,
+        TotalClicks: 0,
+        clicksPerClicks: 1,
+        ClicksPerSecond: 0,
+        CostOfNextClickUpgrade: 10,
+        ClicksUpgraded: 0,
+        Tickrate: 10,
+        BuyAmount: 1,
+        BoughtBuildings: [],
+      }));
+    }
+    console.dir(storage)
   }
-  
+
 });

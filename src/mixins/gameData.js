@@ -1,20 +1,27 @@
-const Store = require('../scripts/store');
+const {
+    remote
+} = require('electron');
+var CurrWin = remote.getCurrentWindow();
 
-const store = new Store({
-    configName: 'user-data',
-    defaults: {
-        gameData: {
-            Clicks: 0,
-            TotalClicks: 0,
-            clicksPerClicks: 1,
-            ClicksPerSecond: 0,
-            CostOfNextClickUpgrade: 10,
-            ClicksUpgraded: 0,
-            Tickrate: 10,
-            BuyAmount: 1,
-        }
-    }
-});
+var storage;
+storage = window['localStorage'];
+
+var SAVE_KEY = 'gameData';
+
+if (!JSON.parse(storage.getItem(SAVE_KEY)) || storage.getItem(SAVE_KEY) == "undefined") {
+    console.log('INIT SAVE DATA')
+    storage.setItem(SAVE_KEY, JSON.stringify({
+        Clicks: 0,
+        TotalClicks: 0,
+        clicksPerClicks: 1,
+        ClicksPerSecond: 0,
+        CostOfNextClickUpgrade: 10,
+        ClicksUpgraded: 0,
+        Tickrate: 10,
+        BuyAmount: 1,
+        BoughtBuildings: [],
+    }));
+}
 
 let {
     Clicks,
@@ -25,7 +32,7 @@ let {
     ClicksUpgraded,
     Tickrate,
     BuyAmount
-} = store.get('gameData');
+} = JSON.parse(storage.getItem(SAVE_KEY));
 
 export const gameData = {
 
@@ -167,6 +174,7 @@ export const gameData = {
             this.ClicksPerSecond = prod;
         },
         saveGameData: function () {
+
             const that = this;
             let {
                 Clicks,
@@ -178,7 +186,7 @@ export const gameData = {
                 Tickrate,
                 BuyAmount
             } = that.returnUserGameData();
-            store.set('gameData', {
+            this.save({
                 Clicks,
                 TotalClicks,
                 clicksPerClicks,
@@ -188,8 +196,10 @@ export const gameData = {
                 Tickrate,
                 BuyAmount
             })
+
         },
         returnUserGameData: function () {
+
             let data = {
                 Clicks: this.Clicks,
                 TotalClicks: this.TotalClicks,
@@ -200,7 +210,18 @@ export const gameData = {
                 Tickrate: this.Tickrate,
                 BuyAmount: this.BuyAmount
             }
+
             return data
+        },
+        save(state) {
+            storage.setItem(SAVE_KEY, JSON.stringify(state));
+        },
+        load() {
+            return JSON.parse(storage.getItem(SAVE_KEY));
+        },
+        delete() {
+            storage.clear();
+            CurrWin.reload();
         }
     },
 }
