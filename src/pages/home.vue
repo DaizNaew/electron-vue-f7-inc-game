@@ -4,12 +4,7 @@
       <f7-nav-left style="-webkit-app-region: no-drag;">
         <f7-link icon-if-ios="f7:menu" icon-if-md="material:menu" panel-open="left">Menu</f7-link>
       </f7-nav-left>
-      <f7-nav-title >{{NameOfObjectToGet}} gatherer</f7-nav-title>
-      <!--
-      <f7-nav-right>
-        <f7-link icon-if-ios="f7:menu" icon-if-md="material:menu" panel-open="right"></f7-link>
-      </f7-nav-right>
-      -->
+      <f7-nav-title>{{NameOfObjectToGet}} gatherer</f7-nav-title>
       <f7-nav-right style="-webkit-app-region: no-drag;">
         <f7-segmented>
           <f7-button @click="Minimize()">_</f7-button>
@@ -46,7 +41,7 @@
           </p>
           <f7-block>
             <p>{{clicksPerClicks}} {{NameOfObjectToGet}} per click</p>
-            <f7-button color=blue @click="incClick()" >Gather {{NameOfObjectToGet}}s</f7-button>
+            <f7-button color=blue @click="incClick()">Gather {{NameOfObjectToGet}}s</f7-button>
             <f7-button color=red @click="increaseClicksPerClick(1)" v-if="Clicks >= CostOfNextClickUpgrade">Upgrade
               {{NameOfObjectToGet}} collection</f7-button>
           </f7-block>
@@ -120,7 +115,7 @@
   export default {
 
     mixins: [gameData],
-    
+
     data() {
       return {
         name: 'Konrad',
@@ -182,7 +177,7 @@
         this.incClick();
         var im = $$('#awoo');
         im.animate({
-          width:'180'
+            width: '180'
           }, {
             duration: 30,
             begin: function (elements) {
@@ -190,14 +185,13 @@
             }
           })
           .animate({
-            width:"150"
-          },{
+            width: "150"
+          }, {
             duration: 30,
             complete: function (elements) {
               im.attr('src', resting)
             }
           });
-        console.dir(this)
       },
       CreateChart() {
         var ctx = document.getElementById('myChart').getContext('2d');
