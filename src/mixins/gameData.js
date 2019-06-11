@@ -31,7 +31,8 @@ let {
     CostOfNextClickUpgrade,
     ClicksUpgraded,
     Tickrate,
-    BuyAmount
+    BuyAmount,
+    BoughtBuildings,
 } = JSON.parse(storage.getItem(SAVE_KEY));
 
 export const gameData = {
@@ -82,7 +83,6 @@ export const gameData = {
                     total_prod: 0
                 },
             ],
-
         }
     },
 
@@ -115,7 +115,6 @@ export const gameData = {
             let cost = this.costBuildingCalculator(building)
             building.cost = cost;
             building.total_prod = (building.amount_owned * building.base_prod);
-
             this.allBuildingTotalProduction();
         },
         costBuildingCalculator: function (building) {
@@ -184,7 +183,8 @@ export const gameData = {
                 CostOfNextClickUpgrade,
                 ClicksUpgraded,
                 Tickrate,
-                BuyAmount
+                BuyAmount,
+                BoughtBuildings
             } = that.returnUserGameData();
             this.save({
                 Clicks,
@@ -194,7 +194,8 @@ export const gameData = {
                 CostOfNextClickUpgrade,
                 ClicksUpgraded,
                 Tickrate,
-                BuyAmount
+                BuyAmount,
+                BoughtBuildings
             })
 
         },
@@ -208,7 +209,8 @@ export const gameData = {
                 CostOfNextClickUpgrade: this.CostOfNextClickUpgrade,
                 ClicksUpgraded: this.ClicksUpgraded,
                 Tickrate: this.Tickrate,
-                BuyAmount: this.BuyAmount
+                BuyAmount: this.BuyAmount,
+                BoughtBuildings : this.BoughtBuildings
             }
 
             return data
