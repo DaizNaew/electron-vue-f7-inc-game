@@ -29,7 +29,9 @@
       <f7-row>
 
         <f7-col width=40>
-          <canvas id="myChart" width="400" height="400"></canvas>
+          <f7-block class=text-center>
+            <img id="awoo" width=150 @click="gainClick()">
+          </f7-block>
         </f7-col>
 
         <f7-col width=20 class=text-center>
@@ -44,7 +46,7 @@
           </p>
           <f7-block>
             <p>{{clicksPerClicks}} {{NameOfObjectToGet}} per click</p>
-            <f7-button color=blue @click="incClick()">Gather {{NameOfObjectToGet}}s</f7-button>
+            <f7-button color=blue @click="incClick()" >Gather {{NameOfObjectToGet}}s</f7-button>
             <f7-button color=red @click="increaseClicksPerClick(1)" v-if="Clicks >= CostOfNextClickUpgrade">Upgrade
               {{NameOfObjectToGet}} collection</f7-button>
           </f7-block>
@@ -98,78 +100,51 @@
         </f7-col>
       </f7-row>
     </f7-block>
-
-    <!--
-    <f7-block-title>Navigation</f7-block-title>
-    <f7-list>
-      <f7-list-item link="/about/" title="About"></f7-list-item>
-      <f7-list-item link="/form/" title="Form"></f7-list-item>
-    </f7-list>
-    <f7-block-title>Modals</f7-block-title>
-    <f7-block strong>
-      <f7-row>
-        <f7-col width="50">
-          <f7-button fill raised popup-open="#popup">Popup</f7-button>
-        </f7-col>
-        <f7-col width="50">
-          <f7-button fill raised login-screen-open="#login-screen">Login Screen</f7-button>
-        </f7-col>
-      </f7-row>
-    </f7-block>
-    <f7-block-title>Panels</f7-block-title>
-    <f7-block strong>
-      <f7-row>
-        <f7-col width="50">
-          <f7-button fill raised panel-open="left">Left Panel</f7-button>
-        </f7-col>
-        <f7-col width="50">
-          <f7-button fill raised panel-open="right">Right Panel</f7-button>
-        </f7-col>
-      </f7-row>
-    </f7-block>
-    -->
   </f7-page>
 </template>
 <script>
-import data from '../app.vue';
+  import data from '../app.vue';
+  import resting from '../img/resting.png';
+  import awoo from '../img/awoo.png';
+  import uwu from '../img/uwu.png';
 
-import {
-  gameData
-} from '../mixins/gameData';
+  import {
+    gameData
+  } from '../mixins/gameData';
 
-const {
-  remote
-} = require('electron');
-var CurrWin = remote.getCurrentWindow();
+  const {
+    remote
+  } = require('electron');
+  var CurrWin = remote.getCurrentWindow();
 
-export default {
+  export default {
 
-  mixins: [gameData],
-
-  data() {
-    return {
-      name: 'Konrad',
-      popupOpened: false
-    }
-  },
-  methods: {
-    Close() {
-      CurrWin.close();
+    mixins: [gameData],
+    
+    data() {
+      return {
+        name: 'Konrad',
+        popupOpened: false
+      }
     },
-    Minimize() {
-      CurrWin.minimize();
-    },
-    setTickerProgress(val) {
-      const that = this;
-      const app = that.$f7;
-      app.progressbar.set("#tickerProgress", val)
-    },
-    createPopup() {
-      const that = this;
-      // Create popup
-      if (!that.popup) {
-        that.popup = that.$f7.popup.create({
-          content: `
+    methods: {
+      Close() {
+        CurrWin.close();
+      },
+      Minimize() {
+        CurrWin.minimize();
+      },
+      setTickerProgress(val) {
+        const that = this;
+        const app = that.$f7;
+        app.progressbar.set("#tickerProgress", val)
+      },
+      createPopup() {
+        const that = this;
+        // Create popup
+        if (!that.popup) {
+          that.popup = that.$f7.popup.create({
+            content: `
               <div class="popup">
                 <div class="page">
                   <div class="navbar">
@@ -185,59 +160,89 @@ export default {
                 </div>
               </div>
             `.trim(),
-        });
-      }
-      // Open it
-      that.popup.open();
-    },
-    onPageBeforeRemove() {
-      const that = this;
-      // Destroy popup when page removed
-      if (that.popup) that.popup.destroy();
-    },
-    CreateChart() {
-      var ctx = document.getElementById('myChart').getContext('2d');
-      var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-          datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(153, 102, 255, 0.2)',
-              'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(153, 102, 255, 1)',
-              'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-          }]
-        },
-        options: {
-          scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: true
-              }
-            }]
-          }
+          });
         }
-      });
+        // Open it
+        that.popup.open();
+      },
+      onPageBeforeRemove() {
+        const that = this;
+        // Destroy popup when page removed
+        if (that.popup) that.popup.destroy();
+      },
+      createAwoo() {
+        const $$ = this.$$;
+        var im = $$('#awoo');
+        im.attr('src', resting);
+        //$$('.button').append(`<img src=${uwu} width=25>`)
+      },
+      gainClick() {
+        const app = this.$f7;
+        const $$ = this.$$;
+        this.incClick();
+        var im = $$('#awoo');
+        im.animate({
+          width:'180'
+          }, {
+            duration: 30,
+            begin: function (elements) {
+              im.attr('src', awoo);
+            }
+          })
+          .animate({
+            width:"150"
+          },{
+            duration: 30,
+            complete: function (elements) {
+              im.attr('src', resting)
+            }
+          });
+        console.dir(this)
+      },
+      CreateChart() {
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            datasets: [{
+              label: '# of Votes',
+              data: [12, 19, 3, 5, 2, 3],
+              backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true
+                }
+              }]
+            }
+          }
+        });
+      },
+      init() {
+        this.createAwoo();
+        //this.CreateChart();
+        this.ticker();
+      }
     },
-    init() {
-      //this.CreateChart();
-      this.ticker();
-    }
-  },
-}
+  }
 </script>
