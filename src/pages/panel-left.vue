@@ -28,23 +28,21 @@
   </f7-page>
 </template>
 <script>
-const Store = require('../scripts/store')
+  const {
+    remote
+  } = require('electron');
+  var CurrWin = remote.getCurrentWindow();
 
-const store = new Store({
-    configName: 'user-theme',
-    defaults: {
-        theme: {
-            darkMode: false
-        }
-    }
-})
-let {darkMode} = store.get('theme');
+var storage;
+storage = window['localStorage'];
+
+var SAVE_KEY = 'darkMode';
 
 export default {
 
   data() {
     return{
-      darkMode,
+      darkMode: this.load(),
     }
   },
   
@@ -56,40 +54,43 @@ export default {
       if(toggle.checked) {
         this.darkMode = true;
         that.$$('body').toggleClass('theme-dark');
+        this.save(this.darkMode);
       } else {
         this.darkMode = false;
         that.$$('body').toggleClass('theme-dark');
+        this.save(this.darkMode);
       }
-      this.saveData();
     },
     init() {
-      const that = this;
-      const app = that.$f7;
-      var toggle = app.toggle.get('#darkMode');
-      toggle.checked = this.darkMode;
-      if(toggle.checked) that.$$('body').addClass('theme-dark');
     },
     getSavedDate() {
       const that = this;
       const app = that.$f7;
     },
-    saveData() {
-      let {darkMode} = this.returnSaveData();
-      store.set('theme', {darkMode});
-    },
-    returnSaveData() {
-      let data = {
-        darkMode: this.darkMode
-      }
-      return data;
-    },
     //To get implemented in the future
     deleteData() {
       const that = this;
       const app = that.$f7;
-      app.dialog.confirm('You sure you want to delete all your saved data?','Confirm deletion', () => {store.del()}, () => {});
+      app.dialog.confirm('You sure you want to delete all your saved data?','Confirm deletion', () => {this.delete()}, () => {});
       console.dir('get Deleted')
+    },
+    save(state) {
+      storage.setItem(SAVE_KEY, JSON.stringify(state));
+    },
+    load() {
+      return JSON.parse(storage.getItem(SAVE_KEY));
+    },
+    delete() {
+      storage.clear();
+      CurrWin.reload();
     }
+  },
+  mounted: function() {
+    const that = this;
+    const app = that.$f7;
+    var toggle = app.toggle.get('#darkMode');
+    toggle.checked = this.darkMode;
+    toggle.checked ? that.$$('body').addClass('theme-dark') : that.$$('body').removeClass('theme-dark');
   }
 }
 </script>
