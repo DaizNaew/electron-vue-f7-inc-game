@@ -1,16 +1,16 @@
 <template>
   <f7-page @page:afterin="init()">
-    <f7-navbar>
-      <f7-nav-left>
+    <f7-navbar style="-webkit-app-region: drag">
+      <f7-nav-left style="-webkit-app-region: no-drag;">
         <f7-link icon-if-ios="f7:menu" icon-if-md="material:menu" panel-open="left">Menu</f7-link>
       </f7-nav-left>
-      <f7-nav-title style="-webkit-app-region: drag">{{NameOfObjectToGet}} gatherer</f7-nav-title>
+      <f7-nav-title >{{NameOfObjectToGet}} gatherer</f7-nav-title>
       <!--
       <f7-nav-right>
         <f7-link icon-if-ios="f7:menu" icon-if-md="material:menu" panel-open="right"></f7-link>
       </f7-nav-right>
       -->
-      <f7-nav-right>
+      <f7-nav-right style="-webkit-app-region: no-drag;">
         <f7-segmented>
           <f7-button @click="Minimize()">_</f7-button>
           <f7-button @click="Close()">X</f7-button>
