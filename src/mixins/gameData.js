@@ -35,6 +35,8 @@ let {
     BoughtBuildings,
 } = JSON.parse(storage.getItem(SAVE_KEY));
 
+let {Upgrades,Buildings} = require('../static/buildings.json');
+
 export const gameData = {
 
     data() {
@@ -50,44 +52,14 @@ export const gameData = {
             Tickrate,
             BuyAmount,
             BoughtBuildings: [],
-            Buildings: [{
-                    id: 0,
-                    name: 'Animu newb',
-                    cost: 10,
-                    base_prod: 0.1,
-                    amount_owned: 0,
-                    total_prod: 0
-                },
-                {
-                    id: 1,
-                    name: 'Weabu',
-                    cost: 100,
-                    base_prod: 1,
-                    amount_owned: 0,
-                    total_prod: 0
-                },
-                {
-                    id: 2,
-                    name: 'Otaku',
-                    cost: 2500,
-                    base_prod: 5,
-                    amount_owned: 0,
-                    total_prod: 0
-                },
-                {
-                    id: 3,
-                    name: 'Konrad',
-                    cost: 10000,
-                    base_prod: 10,
-                    amount_owned: 0,
-                    total_prod: 0
-                },
-            ],
+            Buildings,
+            Upgrades,
         }
     },
 
     created() {
         console.log('Mixin loaded');
+        console.dir(this.Upgrades)
     },
     methods: {
         incClick: function () {
@@ -115,7 +87,9 @@ export const gameData = {
             let cost = this.costBuildingCalculator(building)
             building.cost = cost;
             building.total_prod = (building.amount_owned * building.base_prod);
+            this.BoughtBuildings[building.id] = building
             this.allBuildingTotalProduction();
+            console.dir(this.BoughtBuildings)
         },
         costBuildingCalculator: function (building) {
             return Math.ceil(building.cost * Math.pow(this.ClickUpgradeCostMod, building.amount_owned));
@@ -167,7 +141,7 @@ export const gameData = {
         },
         allBuildingTotalProduction: function () {
             let prod = 0;
-            this.Buildings.forEach(building => {
+            this.BoughtBuildings.forEach(building => {
                 prod += building.total_prod
             })
             this.ClicksPerSecond = prod;

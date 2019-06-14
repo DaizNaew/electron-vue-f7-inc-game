@@ -45,7 +45,7 @@ new Vue({
         ClicksUpgraded: 0,
         Tickrate: 10,
         BuyAmount: 1,
-        BoughtBuildings: [],
+        Buildings: [],
       }));
     }
     console.dir(storage)
