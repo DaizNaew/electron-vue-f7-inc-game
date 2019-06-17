@@ -51,7 +51,7 @@ export const gameData = {
             ClicksUpgraded,
             Tickrate,
             BuyAmount,
-            BoughtBuildings: [],
+            BoughtBuildings,
             Buildings,
             Upgrades,
         }
@@ -59,7 +59,7 @@ export const gameData = {
 
     created() {
         console.log('Mixin loaded');
-        console.dir(this.Upgrades)
+        this.Buildings = this.BoughtBuildings;
     },
     methods: {
         incClick: function () {
@@ -89,7 +89,6 @@ export const gameData = {
             building.total_prod = (building.amount_owned * building.base_prod);
             this.BoughtBuildings[building.id] = building
             this.allBuildingTotalProduction();
-            console.dir(this.BoughtBuildings)
         },
         costBuildingCalculator: function (building) {
             return Math.ceil(building.cost * Math.pow(this.ClickUpgradeCostMod, building.amount_owned));
@@ -99,6 +98,9 @@ export const gameData = {
             const that = this;
             const app = that.$f7;
             const $$ = that.$$;
+            /**
+             * Interval to handle the profit supposed to be given every tick
+             */
             setInterval(() => {
                 tick += 1000;
                 if (tick >= 1000 * this.Tickrate) {
@@ -128,6 +130,9 @@ export const gameData = {
                 }
                 this.setTickerProgress(tick / 100);
             }, 1000);
+            /**
+             * Interval to run the save data function
+             */
             setInterval(() => {
                 app.toast.show({
                     destroyOnClose: true,
@@ -146,6 +151,9 @@ export const gameData = {
             })
             this.ClicksPerSecond = prod;
         },
+        /**
+         * Start on functions to handle the saving and loading of user data
+         */
         saveGameData: function () {
 
             const that = this;
@@ -160,7 +168,7 @@ export const gameData = {
                 BuyAmount,
                 BoughtBuildings
             } = that.returnUserGameData();
-            this.save({
+            that.save({
                 Clicks,
                 TotalClicks,
                 clicksPerClicks,
