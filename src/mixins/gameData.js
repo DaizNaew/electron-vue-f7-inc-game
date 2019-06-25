@@ -1,20 +1,27 @@
-const Store = require('../scripts/store');
+const {
+    remote
+} = require('electron');
+var CurrWin = remote.getCurrentWindow();
 
-const store = new Store({
-    configName: 'user-data',
-    defaults: {
-        gameData: {
-            Clicks: 0,
-            TotalClicks: 0,
-            clicksPerClicks: 1,
-            ClicksPerSecond: 0,
-            CostOfNextClickUpgrade: 10,
-            ClicksUpgraded: 0,
-            Tickrate: 10,
-            BuyAmount: 1,
-        }
-    }
-});
+var storage;
+storage = window['localStorage'];
+
+var SAVE_KEY = 'gameData';
+
+if (!JSON.parse(storage.getItem(SAVE_KEY)) || storage.getItem(SAVE_KEY) == "undefined") {
+    console.log('INIT SAVE DATA')
+    storage.setItem(SAVE_KEY, JSON.stringify({
+        Clicks: 0,
+        TotalClicks: 0,
+        clicksPerClicks: 1,
+        ClicksPerSecond: 0,
+        CostOfNextClickUpgrade: 10,
+        ClicksUpgraded: 0,
+        Tickrate: 10,
+        BuyAmount: 1,
+        BoughtBuildings: [],
+    }));
+}
 
 let {
     Clicks,
@@ -24,8 +31,11 @@ let {
     CostOfNextClickUpgrade,
     ClicksUpgraded,
     Tickrate,
-    BuyAmount
-} = store.get('gameData');
+    BuyAmount,
+    BoughtBuildings,
+} = JSON.parse(storage.getItem(SAVE_KEY));
+
+let {Upgrades,Buildings} = require('../static/buildings.json');
 
 export const gameData = {
 
@@ -41,46 +51,15 @@ export const gameData = {
             ClicksUpgraded,
             Tickrate,
             BuyAmount,
-            BoughtBuildings: [],
-            Buildings: [{
-                    id: 0,
-                    name: 'Animu newb',
-                    cost: 10,
-                    base_prod: 0.1,
-                    amount_owned: 0,
-                    total_prod: 0
-                },
-                {
-                    id: 1,
-                    name: 'Weabu',
-                    cost: 100,
-                    base_prod: 1,
-                    amount_owned: 0,
-                    total_prod: 0
-                },
-                {
-                    id: 2,
-                    name: 'Otaku',
-                    cost: 2500,
-                    base_prod: 5,
-                    amount_owned: 0,
-                    total_prod: 0
-                },
-                {
-                    id: 3,
-                    name: 'Konrad',
-                    cost: 10000,
-                    base_prod: 10,
-                    amount_owned: 0,
-                    total_prod: 0
-                },
-            ],
-
+            BoughtBuildings,
+            Buildings,
+            Upgrades,
         }
     },
 
     created() {
         console.log('Mixin loaded');
+        this.Buildings = this.BoughtBuildings;
     },
     methods: {
         incClick: function () {
@@ -108,7 +87,7 @@ export const gameData = {
             let cost = this.costBuildingCalculator(building)
             building.cost = cost;
             building.total_prod = (building.amount_owned * building.base_prod);
-
+            this.BoughtBuildings[building.id] = building
             this.allBuildingTotalProduction();
         },
         costBuildingCalculator: function (building) {
@@ -119,6 +98,9 @@ export const gameData = {
             const that = this;
             const app = that.$f7;
             const $$ = that.$$;
+            /**
+             * Interval to handle the profit supposed to be given every tick
+             */
             setInterval(() => {
                 tick += 1000;
                 if (tick >= 1000 * this.Tickrate) {
@@ -148,6 +130,9 @@ export const gameData = {
                 }
                 this.setTickerProgress(tick / 100);
             }, 1000);
+            /**
+             * Interval to run the save data function
+             */
             setInterval(() => {
                 app.toast.show({
                     destroyOnClose: true,
@@ -161,12 +146,16 @@ export const gameData = {
         },
         allBuildingTotalProduction: function () {
             let prod = 0;
-            this.Buildings.forEach(building => {
+            this.BoughtBuildings.forEach(building => {
                 prod += building.total_prod
             })
             this.ClicksPerSecond = prod;
         },
+        /**
+         * Start on functions to handle the saving and loading of user data
+         */
         saveGameData: function () {
+
             const that = this;
             let {
                 Clicks,
@@ -176,9 +165,10 @@ export const gameData = {
                 CostOfNextClickUpgrade,
                 ClicksUpgraded,
                 Tickrate,
-                BuyAmount
+                BuyAmount,
+                BoughtBuildings
             } = that.returnUserGameData();
-            store.set('gameData', {
+            that.save({
                 Clicks,
                 TotalClicks,
                 clicksPerClicks,
@@ -186,10 +176,13 @@ export const gameData = {
                 CostOfNextClickUpgrade,
                 ClicksUpgraded,
                 Tickrate,
-                BuyAmount
+                BuyAmount,
+                BoughtBuildings
             })
+
         },
         returnUserGameData: function () {
+
             let data = {
                 Clicks: this.Clicks,
                 TotalClicks: this.TotalClicks,
@@ -198,9 +191,21 @@ export const gameData = {
                 CostOfNextClickUpgrade: this.CostOfNextClickUpgrade,
                 ClicksUpgraded: this.ClicksUpgraded,
                 Tickrate: this.Tickrate,
-                BuyAmount: this.BuyAmount
+                BuyAmount: this.BuyAmount,
+                BoughtBuildings : this.BoughtBuildings
             }
+
             return data
+        },
+        save(state) {
+            storage.setItem(SAVE_KEY, JSON.stringify(state));
+        },
+        load() {
+            return JSON.parse(storage.getItem(SAVE_KEY));
+        },
+        delete() {
+            storage.clear();
+            CurrWin.reload();
         }
     },
 }

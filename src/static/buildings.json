@@ -1,0 +1,45 @@
+{
+    "Buildings":[{
+        "id": 0,
+        "name": "Animu newb",
+        "cost": 10,
+        "base_prod": 0.1,
+        "amount_owned": 0,
+        "total_prod": 0
+    }, {
+        "id": 1,
+        "name": "Weabu",
+        "cost": 100,
+        "base_prod": 1,
+        "amount_owned": 0,
+        "total_prod": 0
+    }, {
+        "id": 2,
+        "name": "Otaku",
+        "cost": 2500,
+        "base_prod": 5,
+        "amount_owned": 0,
+        "total_prod": 0
+    }, {
+        "id": 3,
+        "name": "Konrad",
+        "cost": 10000,
+        "base_prod": 10,
+        "amount_owned": 0,
+        "total_prod": 0
+    }],
+    "Upgrades": {
+        "1": [{
+
+        }],
+        "2": [{
+
+        }],
+        "3": [{
+
+        }],
+        "4": [{
+
+        }]
+    }
+}
