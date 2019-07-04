@@ -92,7 +92,7 @@ export default {
         inject: true,
       }),
       new MiniCssExtractPlugin({
-        filename: 'app.css'
+        filename: 'app.scss'
       }),
       new CopyWebpackPlugin([{
         from: resolvePath('static'),
