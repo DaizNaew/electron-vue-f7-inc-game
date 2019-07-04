@@ -61,6 +61,7 @@ export const gameData = {
         console.log('Mixin loaded');
         for(let i = 0; i < this.Buildings.length; i++) {
             if(this.BoughtBuildings[i]) this.Buildings[i] = this.BoughtBuildings[i];
+            this.Buildings[i].Upgrades = this.Upgrades[i];
         }
         console.dir(this.Buildings);
     },
