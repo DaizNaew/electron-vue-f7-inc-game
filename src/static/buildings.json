@@ -5,40 +5,79 @@
         "cost": 10,
         "base_prod": 0.1,
         "amount_owned": 0,
-        "total_prod": 0
+        "total_prod": 0,
+        "upgrades_menu": "AnimuNewbPopover"
     }, {
         "id": 1,
         "name": "Weabu",
         "cost": 100,
         "base_prod": 1,
         "amount_owned": 0,
-        "total_prod": 0
+        "total_prod": 0,
+        "upgrades_menu": "WeabuPopover"
     }, {
         "id": 2,
         "name": "Otaku",
         "cost": 2500,
         "base_prod": 5,
         "amount_owned": 0,
-        "total_prod": 0
+        "total_prod": 0,
+        "upgrades_menu": "OtakuPopover"
     }, {
         "id": 3,
         "name": "Konrad",
         "cost": 10000,
         "base_prod": 10,
         "amount_owned": 0,
-        "total_prod": 0
+        "total_prod": 0,
+        "upgrades_menu": "KonradPopover"
     }],
     "Upgrades": {
+        "0": [{
+            "id": 0,
+            "name": "Subscription to crunchyroll",
+            "cost": 500,
+            "type": "Additive",
+            "prod_inc": 0.1,
+            "req_units": 10,
+            "special": [{
+                
+            }]
+        }],
         "1": [{
+            "id": 0,
+            "name": "Subscription to crunchyroll",
+            "cost": 1200,
+            "type": "Additive",
+            "prod_inc": 1,
+            "req_units": 10,
+            "special": [{
+                
+            }]
 
         }],
         "2": [{
+            "id": 0,
+            "name": "Subscription to crunchyroll",
+            "cost": 5000,
+            "type": "Additive",
+            "prod_inc": 10,
+            "req_units": 10,
+            "special": [{
+                
+            }]
 
         }],
         "3": [{
-
-        }],
-        "4": [{
+            "id": 0,
+            "name": "Subscription to crunchyroll",
+            "cost": 1500,
+            "type": "Additive",
+            "prod_inc": 15,
+            "req_units": 10,
+            "special": [{
+                
+            }]
 
         }]
     }
