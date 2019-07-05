@@ -52,6 +52,7 @@ export const gameData = {
             Tickrate,
             BuyAmount,
             BoughtBuildings,
+            BoughtUpgrades: [],
             Buildings,
             Upgrades,
         }
@@ -63,7 +64,6 @@ export const gameData = {
             if(this.BoughtBuildings[i]) this.Buildings[i] = this.BoughtBuildings[i];
             this.Buildings[i].Upgrades = this.Upgrades[i];
         }
-        console.dir(this.Buildings);
     },
     methods: {
         incClick: function () {
@@ -93,6 +93,11 @@ export const gameData = {
             building.total_prod = (building.amount_owned * building.base_prod);
             this.BoughtBuildings[building.id] = building
             this.allBuildingTotalProduction();
+        },
+        buyUpgrade: function(buildingID, upgradeID) {
+            let building = this.Buildings.find(building => building.id === buildingID);
+            let upgrade = building.Upgrades.find(upgrade => upgrade.id === upgradeID);
+            console.log([building, upgrade]);
         },
         costBuildingCalculator: function (building) {
             return Math.ceil(building.cost * Math.pow(this.ClickUpgradeCostMod, building.amount_owned));

@@ -55,7 +55,7 @@
           <f7-block>
             <f7-block-header>Units available for purchase</f7-block-header>
             <f7-list media-list>
-              <f7-list-item v-for="item in Buildings" :key="item.id" :title="item.name">
+              <f7-list-item v-for="(item, itemIndex) in Buildings" :key="item.id" :title="item.name">
                 <ul slot=after>
                   <li><label>Price: {{item.cost}}</label></li>
                   <li><label>Produces {{item.total_prod.toFixed(1)}}/s</label></li>
@@ -67,27 +67,28 @@
                     <f7-badge :class="[Clicks >= item.cost ? 'color-red' : 'color-white']">!</f7-badge>
                   </f7-button>
 
-                  <f7-button :disabled="0 == item.amount_owned || item.amount_owned < 10" text=Upgrades
-                    tooltip="Click this to further upgrade this unit" popover-open=.popover-menu />
+                  <f7-button :disabled="0 == item.amount_owned || item.amount_owned < item.Upgrades[0].req_units" text=Upgrades
+                    :tooltip="`Click this to further upgrade ${item.name}`" :popover-open="`.${item.upgrades_menu}`" />
                 </f7-segmented>
 
                 <f7-badge slot=media :disabled="0 == item.amount_owned" :class="{'color-blue' : item.amount_owned > 0}">
                   {{item.amount_owned}}</f7-badge>
 
-                <f7-popover :key="item.id" class=popover-menu>
-                  <!--
+                <f7-popover :key="item.id" :class="item.upgrades_menu">
                   <f7-list>
-                    <f7-list-item :key="upgrade.id" v-for="upgrade in item.Upgrades" :title="upgrade.name"
-                      :hidden="upgrade.req_units > item.amount_owned" link=#>
+                    <f7-list-item :key="upgrade.id" v-for="(upgrade, upgradeIndex) in item.Upgrades"
+                      :hidden="upgrade.req_units > item.amount_owned" link=# @click="buyUpgrade(itemIndex, upgradeIndex)">
                       <label slot=after>Purchase</label>
                       <label slot=header>Price: {{upgrade.cost}}</label>
                       <label slot=footer>{{upgrade.effect_text}}</label>
+                      <label slot=title :tooltip="`${upgrade.name}`">{{upgrade.name}}</label>
                     </f7-list-item>
                   </f7-list>
-                  -->
                 </f7-popover>
 
               </f7-list-item>
+             
+              <!-- <unitComp v-for="item in Buildings" v-bind:key="item.id" v-bind:item="item"></unitComp> -->
             </f7-list>
             <f7-block-footer>
             </f7-block-footer>
@@ -119,10 +120,13 @@
     data() {
       return {
         name: 'Konrad',
-        popupOpened: false
+        popupOpened: false,
       }
     },
     methods: {
+      log(obj) {
+        console.log(obj);
+      },
       Close() {
         CurrWin.close();
       },
