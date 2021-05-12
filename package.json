@@ -53,7 +53,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "chart.js": "^2.8.0",
+    "chart.js": "^2.9.4",
     "framework7": "^4.4.0",
     "framework7-icons": "^2.3.1",
     "framework7-vue": "^4.4.0",
