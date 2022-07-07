@@ -57,7 +57,7 @@
     "framework7": "^4.4.0",
     "framework7-icons": "^2.3.1",
     "framework7-vue": "^4.4.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "source-map-support": "^0.5.12",
     "vue": "^2.6.10"
   },
